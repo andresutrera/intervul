@@ -45,7 +45,7 @@ class ElemMallaDat:
     toReturn = "['"+self.namePhysical+"', "+str(self.physical)+", "+str(self.setVulcan)+"]"
     return toReturn
   def __readed(self,iline):
-    print "$Elem_Malla, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Set de Vulcan: ", self.setVulcan, " Línea: ",iline
+    print("$Elem_Malla, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Set de Vulcan: ", self.setVulcan, " Línea: ",iline)
 
 
 class ElemsMallaDat:
@@ -58,11 +58,11 @@ class ElemsMallaDat:
   def read(self,iline,line,action,physicalsNames):
     if (action == None) and line.strip().split()[0].lower().startswith("$elem_malla"):  # Como la accion es None, no está en ningun bloque particular, por lo que busca la carta de lectura de elementos
       action = actions['ElemsMalla']
-      print "\n$Elem_Malla, Línea :",iline
+      print("\n$Elem_Malla, Línea :",iline)
     elif (action == actions['ElemsMalla']):                                      # Como la accion es ElemsMalla, está en el bloque de elemsMalla
       if line.strip().split()[0].lower().startswith("$fin_elem_malla"):
         action = None
-        print "$Fin_Elem_Malla, Línea :",iline
+        print("$Fin_Elem_Malla, Línea :",iline)
       elif not self.isReadedDimension:
         data = line.strip()
         if data == '3D' or data == '3d':
@@ -73,7 +73,7 @@ class ElemsMallaDat:
           self.isReadedDimension = True
         else:
           raise ValueError("No se acepta el tipo "+data+", error en la linea "+str(iline))
-        print "$Elem_Malla, Dimensión del problema: ", self.problemDimension, " Línea: ", iline
+        print("$Elem_Malla, Dimensión del problema: ", self.problemDimension, " Línea: ", iline)
       else:                                                                 #Fuera de la definición de si es 3D o 2D
         self.data.append(ElemMallaDat(iline,line,physicalsNames))
     return action
@@ -82,7 +82,7 @@ class ElemsMallaDat:
       raise StopIteration
     else:
       self.iItemIterator = -1
-      return self
+      return self.data[self.iItemIterator]
     return
   def next(self):
     self.iItemIterator += 1
@@ -156,9 +156,9 @@ class Constraint:
         raise ValueError ('Los grados impuestos solo pueden ser 1 o 0 no pueden ser ' + gradosImpuestos + ", Error en la linea " + iline)
   def __readed(self,iline):
     if self.constraintzVulcan != None:
-      print "$Restricciones, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, "Aditivo: ", self.additive ," Restricciones Impuestas: ", int(self.constraintxVulcan), int(self.constraintyVulcan), int(self.constraintzVulcan), " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline
+      print("$Restricciones, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, "Aditivo: ", self.additive ," Restricciones Impuestas: ", int(self.constraintxVulcan), int(self.constraintyVulcan), int(self.constraintzVulcan), " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline)
     else:
-      print "$Restricciones, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, "Aditivo: ", self.additive ," Restricciones Impuestas: ", int(self.constraintxVulcan), int(self.constraintyVulcan), " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, " Línea: ",iline
+      print("$Restricciones, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, "Aditivo: ", self.additive ," Restricciones Impuestas: ", int(self.constraintxVulcan), int(self.constraintyVulcan), " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, " Línea: ",iline)
 
 
 class Constraints:
@@ -168,11 +168,11 @@ class Constraints:
     if (action == None) and line.strip().split()[0].lower().startswith("$restricciones"):  # Como la accion es None, no está en ningun bloque particular, por lo que busca la carta de lectura de elementos
       action = actions['Restricciones']
       self.data.append([])
-      print "\n$Restricciones, Línea: ",iline
+      print("\n$Restricciones, Línea: ",iline)
     elif (action == actions['Restricciones']):                                     # Como la accion es ElemsMalla, está en el bloque de elemsMalla
       if line.strip().split()[0].lower().startswith("$fin_restricciones"):
         action = None
-        print "$Fin_Restricciones, Línea: ",iline
+        print("$Fin_Restricciones, Línea: ",iline)
       else:                                                                 #Fuera de la definición de si es 3D o 2D
         self.data[-1].append(Constraint(iline,line,physicalsNames,problemDimension))
     return action
@@ -226,11 +226,11 @@ class Load:
   def __readed(self,iline):
     if self.type != "GRAVITY":
       if self.valzVulcan != None:
-        print "$Cargas, Tipo: ", self.type, " Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline
+        print("$Cargas, Tipo: ", self.type, " Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline)
       else:
-        print "$Cargas, Tipo: ", self.type, " Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, " Línea: ",iline
+        print("$Cargas, Tipo: ", self.type, " Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, " Línea: ",iline)
     else:
-      print "$Cargas, Tipo: ", self.type,  "Valor Gravedad: ", self.gravity, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline
+      print("$Cargas, Tipo: ", self.type,  "Valor Gravedad: ", self.gravity, " Función: ", self.functionVulcan, "Valores: ", self.valxVulcan, self.valyVulcan, self.valzVulcan, " Línea: ",iline)
 
 
 class Loads:
@@ -240,11 +240,11 @@ class Loads:
     if (action == None) and line.strip().split()[0].lower().startswith("$cargas"):  # Como la accion es None, no está en ningun bloque particular, por lo que busca la carta de lectura de elementos
       action = actions['Cargas']
       self.data.append([])
-      print "\n$Cargas, Línea: ",iline
+      print("\n$Cargas, Línea: ",iline)
     elif (action == actions['Cargas']):                                     # Como la accion es ElemsMalla, está en el bloque de elemsMalla
       if line.strip().split()[0].lower().startswith("$fin_cargas"):
         action = None
-        print "$Fin_Cargas, Línea: ",iline
+        print("$Fin_Cargas, Línea: ",iline)
       else:                                                                 #Fuera de la definición de si es 3D o 2D
         self.data[-1].append(Load(iline,line,physicalsNames,problemDimension))
     return action
@@ -282,7 +282,7 @@ class ElementoAImprimir:
     self.file=data[2]
     self.__readed(iline)
   def __readed(self,iline):
-    print "$Nodos_Elem_Fisicos, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " direccion: ", self.direction, " Archivo: ", self.file, " Línea: ",iline
+    print("$Nodos_Elem_Fisicos, Nombre fisico: '", self.namePhysical, "' Id físico: ", self.physical, " direccion: ", self.direction, " Archivo: ", self.file, " Línea: ",iline)
 
 
 class ElementosAImprimir:
@@ -291,11 +291,11 @@ class ElementosAImprimir:
   def read(self,iline,line,action,physicalsNames):
     if (action == None) and line.strip().split()[0].lower().startswith("$nodos_elem_fisicos"):  # Como la accion es None, no está en ningun bloque particular, por lo que busca la carta de lectura de elementos
       action = actions['NodosElemFisicos']
-      print "\n$Nodos_Elem_Fisicos, Línea: ",iline
+      print("\n$Nodos_Elem_Fisicos, Línea: ",iline)
     elif (action == actions['NodosElemFisicos']):                                     # Como la accion es ElemsMalla, está en el bloque de elemsMalla
       if line.strip().split()[0].lower().startswith("$fin_nodos_elem_fisicos"):
         action = None
-        print "$Fin_Nodos_Elem_Fisicos, Línea: ",iline
+        print("$Fin_Nodos_Elem_Fisicos, Línea: ",iline)
       else:                                                                 #Fuera de la definición de si es 3D o 2D
         self.data.append(ElementoAImprimir(iline,line,physicalsNames))
     return action
@@ -1000,4 +1000,4 @@ if len(inter.loads) > 0:
 
 inter.writeElementsToIntergplo(datosgmsh)
 
-print "\n\nElementos: ", mydataVulcan.getNElements(), " Nodos: ", mydataVulcan.getNNodes()
+print("\n\nElementos: ", mydataVulcan.getNElements(), " Nodos: ", mydataVulcan.getNNodes())

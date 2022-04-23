@@ -20,10 +20,11 @@ setuptools.setup(
     ],
     python_requires='>=3',
     install_requires=["scipy"],
-    scripts=['scripts/geoToVtk', 
+    scripts=['scripts/geoToVtk',
              'scripts/getForcesVul',
              'scripts/intervtk',
              'scripts/makeInitial',
-             'scripts/repairContact'
+             'scripts/repairContact',
+             'scripts/gmsh2vulcan'
              ]
 )
